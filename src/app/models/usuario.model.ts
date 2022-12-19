@@ -1,3 +1,6 @@
+import { environment } from "src/environments/environment"
+
+const baseUrl = environment.base_url
 
 export class Usuario{
 
@@ -10,7 +13,23 @@ export class Usuario{
         public role?     :string,
         public uid?      :string,
 
-    ){
+    ){}
+
+    get imagenUrl (){
+
+        if(!this.img){
+            return `${baseUrl}/upload/usuarios/no-image`
+        }
+
+        if(this.img?.includes('https')){
+            return this.img
+        }
+
+        if(this.img){
+            return `${baseUrl}/upload/usuarios/${this.img}`
+        }
+
+        return `${baseUrl}/upload/usuarios/no-image`
 
     }
 

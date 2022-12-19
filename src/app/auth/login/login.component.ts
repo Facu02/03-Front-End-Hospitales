@@ -24,15 +24,15 @@ export class LoginComponent implements AfterViewInit{
   constructor(  private fb : FormBuilder, 
                 private usuarioService : UsuarioService,
                 private router :Router)
-    {
-      
-      this.loginForm = this.fb.group({
-        email:    [localStorage.getItem('email') || "", [Validators.required, Validators.email]],
-        password: ['123456', [Validators.required]],
-        remember:[false]
-      })
-    }
-    ngAfterViewInit(): void {
+  {
+    this.loginForm = this.fb.group({
+      email:    [localStorage.getItem('email') || "", [Validators.required, Validators.email]],
+      password: ['123456', [Validators.required]],
+      remember:[false]
+    })
+  }
+
+  ngAfterViewInit(): void {
     this.googleInit()
   }
 
@@ -54,7 +54,6 @@ export class LoginComponent implements AfterViewInit{
     this.usuarioService.loginGoogle(response.credential).subscribe({
         next: ()=> {
         this.router.navigateByUrl('/dashboard')
-
       }}
     )
   }
@@ -68,14 +67,14 @@ export class LoginComponent implements AfterViewInit{
     }
 
     this.usuarioService.login(this.loginForm.value).subscribe({
-      next: resp => console.log(resp),
+      next: resp => {
+        this.router.navigateByUrl('/dashboard')
+      },
       error: (err) => {
         Swal.fire('Error',err.error.msg, 'error')
         
       }
     })
-
-
   }
 
 
