@@ -13,6 +13,10 @@
     width: 100px;
 }
 
+.w140{
+    width: 140px;
+}
+
 .avatar{
     width: 50px;
     border: 10px;
@@ -20,4 +24,18 @@
 
 .pointer{
     cursor: pointer;
+}
+
+.oculto{
+    display: none;
+}
+
+.fondo-modal-imagen{
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
 }

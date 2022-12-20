@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { debounceTime, Subject } from 'rxjs';
-import { Usuario } from 'src/app/models/usuario.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { debounceTime, Subject, Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
+
+
 import { BusquedasService } from 'src/app/services/busquedas.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import Swal from 'sweetalert2';
+import { ModalImagenService } from '../../../services/modal-imagen.service';
+
+import { Usuario } from 'src/app/models/usuario.model';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-usuarios',
@@ -11,17 +16,24 @@ import Swal from 'sweetalert2';
   styles: [
   ]
 })
-export class UsuariosComponent implements OnInit{
+export class UsuariosComponent implements OnInit, OnDestroy{
 
   public totalUsers : number =0;
   public usuarios : Usuario[] =[];
   public auxiliarUsuarios : Usuario[] =[];
   public desde : number = 0
   public cargando :boolean = true
+  public imgUnsubscritio! : Subscription;
 
 
   constructor(  private usuarioServices : UsuarioService,
-                private busquedasServices: BusquedasService){}
+                private busquedasServices: BusquedasService,
+                private modalImagen : ModalImagenService){}
+
+
+  ngOnDestroy(): void {
+    this.imgUnsubscritio.unsubscribe()
+  }
   ngOnInit(): void {
 
     this.termino$.pipe(
@@ -29,6 +41,13 @@ export class UsuariosComponent implements OnInit{
     ).subscribe(resp => this.buscar(resp))
 
     this.cargarUsuarios()
+
+    this.imgUnsubscritio = this.modalImagen.nuevaImagen
+    .pipe(
+      delay(100)
+    )
+    .subscribe( () => this.cargarUsuarios)
+
   }
 
   cargarUsuarios(){
@@ -117,7 +136,14 @@ export class UsuariosComponent implements OnInit{
         })
       }})
       return
-    }
-  
+  }
+
+  cambiarRole( user : Usuario){
+    this.usuarioServices.guardarUsuario(user).subscribe(console.log)
+  }
+
+  abrirModal(user:Usuario){
+      this.modalImagen.cambiarModal( 'usuarios', user.uid! , user.img)
+  }
 
 }

@@ -70,17 +70,8 @@ export class UsuarioService {
 
   actualizarUsuario( data:{email:string, nombre:string, role :string, password:string }){
 
-    data ={
-      ...data,
-      role: this.usuario.role || '',
-      password:'123456'
-    }
 
-    return this.http.put(`${base_url}/usuarios/${this.uid}`, data,{
-      headers:{
-        'x-token': this.token
-      }
-    })
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data,this.headers)
   }
 
   crearUsuario( formulario:registerForm){
@@ -136,5 +127,12 @@ export class UsuarioService {
     return this.http.delete<{ok:boolean,msg:string}>(url, this.headers)
 
   }
+
+  guardarUsuario( data:Usuario){
+
+
+    return this.http.put(`${base_url}/usuarios/${data.uid}`, data ,this.headers)
+  }
+
 
 }
