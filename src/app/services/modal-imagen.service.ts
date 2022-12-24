@@ -8,8 +8,8 @@ import { environment } from 'src/environments/environment';
 })
 export class ModalImagenService {
 
-  public tipo : 'usuarios' | 'medicos' | 'hospitales' = 'usuarios';
-  public id : string = ''
+  public tipo! : 'usuarios' | 'medicos' | 'hospitales';
+  public id! : string 
   public img : string = ''
 
   public nuevaImagen: EventEmitter<string> = new EventEmitter<string>()
@@ -35,6 +35,8 @@ export class ModalImagenService {
         this.img = `${baseUrl}/upload/${tipo}/${img}`
       }
     this.id = id
+
+    this.tipo = tipo
 
     this._ocultarModal = !this._ocultarModal
 

@@ -36,14 +36,14 @@ export class FileUploadService {
       const img = await fileUpload.json()
 
       if(!img.ok){
-        console.log(img.msg)
+        console.log(img)
         return false
       }
       
       return img.nombreImg
       
     } catch (error) {
-      console.log(error)
+      console.log(error , 'aca')
       return false
     }
 

@@ -1,1 +1,128 @@
-<p>hospitales works!</p>
+<div class="row animated fade-in fast">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                
+                <input type="text" 
+                class="form-control"
+                placeholder="Buscar hospital..."
+                (keyup)="TerminoDeBusqueda(txtBuscar.value)"
+                #txtBuscar>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fade-in fast"
+     *ngIf="cargando">
+    <div class="col-12">
+        
+        <div class="alert alert-info text-center" role="alert">
+            <h4 class="alert-heading">Cargando</h4>
+            <p class=" fa fa-spin fa-refresh fa-2x"></p>
+            <div class="mb-0">Por favor espere</div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row animated fade-in fast"
+     *ngIf="mensaje">
+    <div class="col-12">
+        
+        <div class="alert alert-danger text-center" role="alert">
+            <h4 class="alert-heading">No hay resultados</h4>
+        </div>
+
+    </div>
+</div>
+
+<div    class="row"
+        *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+
+          
+
+            <div class="card-body">
+
+
+
+                <div class="row">
+                    <div class="col-9">
+                        <h4 class="card-title">Hospitales</h4>
+                        <h6 class="card-subtitle">Hospitales registrados en la aplicacion</h6>
+                    </div>
+                    <div class="col">
+                        <div class="text-right">
+                            <button class="btn btn-primary"
+                                    (click)="abrirSweet()">
+                                <i class="fa fa-hospital-o"></i>
+                                Crear hospital
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+           
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nombre</th>
+                                <th>Id</th>
+                                <th class=" w100 text-nowrap">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hospital of hospitales" class="text-center">
+                                <td class="w100">
+                                    <img    class="avatar pointer"
+                                            [src]=" hospital.img | imagen:'hospitales'" 
+                                            [alt]="hospital.nombre"
+                                            (click)="abrirModal(hospital)">
+                                </td>
+                                <td>
+                                    <input  type="text" 
+                                            class="form-control" 
+                                            placeholder="Nombre del hospital"
+                                            [(ngModel)]="hospital.nombre">
+                                </td>
+
+                                <td class="w140">
+                                    {{hospital._id}}
+                                </td>
+
+
+                                <td class="text-nowrap">
+                                    <a  (click)="guardarCambios(hospital)" 
+                                        data-toggle="tooltip" 
+                                        data-original-title="Guardar"
+                                        class="pointer"> <i class="fa fa-pencil text-inverse m-r-10"></i>
+                                    </a>
+                                    <a  (click)="eliminarHospital(hospital)"  
+                                        data-toggle="tooltip" 
+                                        data-original-title="Borrar"
+                                        class="pointer"><i class="fa fa-close text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <button class="btn btn-primary">Siguientes</button>
+                &nbsp;
+                <button class="btn btn-secondary">Anterior</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+  
